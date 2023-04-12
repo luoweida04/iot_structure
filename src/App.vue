@@ -184,6 +184,32 @@ export default {
       selectedTitle: 0,
       machineData: [
         {
+          label: "华工终端一",
+          children: [
+            {
+              label: "二级 1-1",
+              children: [
+                {
+                  label: "三级 1-1-1",
+                },
+              ],
+            },
+          ],
+        },
+        {
+          label: "华工终端二",
+          children: [
+            {
+              label: "二级 1-1",
+              children: [
+                {
+                  label: "三级 1-1-1",
+                },
+              ],
+            },
+          ],
+        },
+        {
           label: "华工新终端",
           children: [
             {

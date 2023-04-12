@@ -297,7 +297,8 @@ export default {
 .leftNav {
   height: 100vh;
   background-color: rgb(53, 52, 52);
-  padding-top: 25px;
+  // padding-top: 25px;
+  padding: 25px;
   .mainTitle {
     display: flex;
     flex-direction: column;
@@ -308,6 +309,7 @@ export default {
     background-color: rgb(39, 38, 38);
     border-top-right-radius: 5px;
     border-bottom-right-radius: 5px;
+    margin: auto;
     margin-bottom: 20px;
   }
   .el-tree {

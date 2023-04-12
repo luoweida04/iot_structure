@@ -302,7 +302,7 @@ export default {
   .mainTitle {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly;
+    justify-content: space-evenly; 
     width: 90%;
     height: 60px;
     color: #fff;

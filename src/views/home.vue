@@ -27,7 +27,7 @@
         <div class="box">
           <div class="innerbox">
             <el-row :gutter="24">
-              <el-col class="col1" :span="6">
+              <el-col class="col1" :span="5">
                 <div class="group">
                   <span>设备分组：</span>
                   <el-select v-model="value" placeholder="请选择">
@@ -53,7 +53,7 @@
                   </el-tree>
                 </div>
               </el-col>
-              <el-col class="col2" :span="18">
+              <el-col class="col2" :span="19">
                 <div class="machineId">设备ID: {{ machineId }}</div>
                 <br /><br />
                 <div class="titles">
@@ -85,7 +85,9 @@
                     </el-table-column>
                   </el-table>
                 </div>
-                <div class="picture" v-show="selectedTitle"></div>
+                <div class="picture" v-show="selectedTitle">
+                  <GaoDe></GaoDe>
+                </div>
               </el-col>
             </el-row>
           </div>
@@ -97,11 +99,11 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-
+import GaoDe from '@/components/GaoDe'
 export default {
   name: "App",
   components: {
-    // HelloWorld
+    GaoDe
   },
   data() {
     return {
@@ -182,7 +184,7 @@ export default {
       ],
       value: "区域分组",
       machineId: 37,
-      selectedTitle: 0,
+      selectedTitle: 1,
       machineData: [
         {
           label: "华工终端一",
@@ -302,7 +304,8 @@ export default {
   height: 100vh;
   background-color: rgb(53, 52, 52);
   // padding-top: 25px;
-  padding: 25px;
+  padding: 10px;
+  padding-top: 20px;
   .mainTitle {
     display: flex;
     flex-direction: column;
@@ -344,21 +347,22 @@ export default {
 }
 .top {
   width: 100%;
-  height: 100px;
+  height: 80px;
   background-color: #fff;
   padding-right: 30px;
 }
 .top .el-button {
   float: right;
-  transform: translateY(30px);
+  transform: translateY(20px);
   border-radius: 5px;
+  margin-right: 20px;
 }
 .box {
   width: 100%;
   height: calc(100vh - 100px);
   background-color: rgb(231, 231, 231);
-  padding-left: 25px;
-  padding-top: 25px;
+  padding-left: 10px;
+  padding-top: 10px;
 }
 .box .innerbox {
   width: 100%;
@@ -386,7 +390,7 @@ export default {
       margin: auto;
       margin-top: 10px;
       .title {
-        width: 40%;
+        width: 50%;
         font-size: 20px;
         font-weight: bold;
         border-bottom: 2px solid #000;
@@ -415,7 +419,7 @@ export default {
       display: flex;
       width: 100%;
       border-bottom: 1px solid rgb(231, 230, 230);
-      padding-top: 20px;
+      // padding-top: 10px;
       span {
         width: 250px;
         font-size: 20px;
@@ -435,6 +439,10 @@ export default {
         margin-top: 20px;
         margin-bottom: 15px;
       }
+    }
+    .picture {
+      width: 100%;
+      height: 88%;
     }
   }
 }

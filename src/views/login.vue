@@ -109,7 +109,7 @@ export default {
     position: relative;
     width: 580px;
     height: 550px;
-    margin: 150px auto;
+    margin: 80px auto;
     background-color: #fff;
     border-radius: 20px;
     padding: 20px;

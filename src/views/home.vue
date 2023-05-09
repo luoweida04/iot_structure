@@ -86,7 +86,12 @@
                   </el-table>
                 </div>
                 <div class="picture" v-show="selectedTitle">
-                  <GaoDe></GaoDe>
+                  <GaoDe ref="GaoDe" v-show="!openVideoFlag"></GaoDe>
+                  <div class="videoPlayer" v-show="openVideoFlag">
+                    <el-button @click="closeVideo" type="primary">返回</el-button>
+                    设备监控视频
+                    <!-- <video src=""></video> -->
+                  </div>
                 </div>
               </el-col>
             </el-row>
@@ -99,11 +104,11 @@
 
 <script>
 // import HelloWorld from './components/HelloWorld.vue'
-import GaoDe from '@/components/GaoDe'
+import GaoDe from "@/components/GaoDe";
 export default {
   name: "App",
   components: {
-    GaoDe
+    GaoDe,
   },
   data() {
     return {
@@ -185,6 +190,7 @@ export default {
       value: "区域分组",
       machineId: 37,
       selectedTitle: 1,
+      openVideoFlag: false,
       machineData: [
         {
           label: "华工终端一",
@@ -243,7 +249,7 @@ export default {
           pn: 1,
           cn: 4,
           bn: 0,
-        }
+        },
       ],
     };
   },
@@ -274,8 +280,18 @@ export default {
       );
     },
     toLogin() {
-      this.$router.push('/login');
-    }
+      this.$router.push("/login");
+    },
+    openVideo() {
+      console.log("openVideo");
+      this.openVideoFlag = true;
+    },
+    closeVideo() {
+      this.openVideoFlag = false;
+    },
+  },
+  mounted() {
+    this.$refs.GaoDe.$on("openVideo", this.openVideo);
   },
 };
 </script>
@@ -309,7 +325,7 @@ export default {
   .mainTitle {
     display: flex;
     flex-direction: column;
-    justify-content: space-evenly; 
+    justify-content: space-evenly;
     width: 90%;
     height: 60px;
     color: #fff;
@@ -443,6 +459,13 @@ export default {
     .picture {
       width: 100%;
       height: 88%;
+      .videoPlayer {
+        padding-top: 80px;
+        video {
+          width: 300px;
+          height: 250px;
+        }
+      }
     }
   }
 }

@@ -11,6 +11,7 @@ export default {
   data() {
     return {
       map: null,
+      center: [113.405494, 23.048265],
     };
   },
   methods: {
@@ -22,16 +23,13 @@ export default {
         plugins: [],
       })
         .then((AMap) => {
-          console.log(this);
           this.map = new AMap.Map("container", {
-            //设置地图容器id
             pitch: 45,
             viewMode: "3D", //是否为3D地图模式
-            // zooms: [3,30],
             zoom: 18, //初始化地图级别
-            center: [113.405494, 23.048265], //初始化地图中心点位置
+            center: this.center, //初始化地图中心点位置
             scrollWheel: true,
-            mapStyle: "amap://styles/grey", //设置地图的显示样式
+            // mapStyle: "amap://styles/grey", //设置地图的显示样式
           });
           // this.map.addControl(new AMap.Scale());
           // this.map.addControl(new AMap.Geolocation());
@@ -66,18 +64,6 @@ export default {
           });
           object3Dlayer.add(rectangle); //添加
 
-          // 圆形
-          // let center = new AMap.LngLat(113.405494, 23.048265);
-          // let circle = new AMap.Circle({
-          //   center: center, //圆心
-          //   radius: 3, //半径
-          //   borderWeight: 3,
-          //   strokeWeight: 0,
-          //   fillOpacity: 0.4,
-          //   fillColor: "#1791fc",
-          //   zIndex: 50,
-          // });
-          // this.map.add(circle);
           let centers = [];
           let circles = [];
           for (let i = 0; i < 100; i++) {
@@ -95,10 +81,42 @@ export default {
             );
             this.map.add(circles[i]);
           }
+
+          // 点标记
+          // 创建 AMap.Icon 实例：
+          let that = this;
+          let size = new AMap.Size(30, 30);
+          for (let i = 0; i < 10; i++) {
+            const icon = new AMap.Icon({
+              size: size, // 图标尺寸
+              image: "//vdata.amap.com/icons/b18/1/2.png", // Icon的图像
+              imageSize: size, // 根据所设置的大小拉伸或压缩图片
+            });
+            // 将 Icon 实例添加到 marker 上:
+            const marker = new AMap.Marker({
+              position: new AMap.LngLat(113.404894 + i * 0.0003, 23.047565),
+              offset: new AMap.Pixel(0, -60),
+              icon: icon, // 添加 Icon 实例
+              label: {
+                content: `设备${i}`,
+                offset: new AMap.Pixel(-5, 33),
+              },
+            });
+            marker.on("click", function () {
+              let laber = this.getLabel().content;
+              let labelId = laber.substring(2, laber.Length);
+              console.log(labelId);
+              that.openVideo(labelId);
+            });
+            this.map.add(marker);
+          }
         })
         .catch((e) => {
           console.error(e);
         });
+    },
+    openVideo(id) {
+      this.$emit('openVideo', id);
     },
   },
   beforeMount() {

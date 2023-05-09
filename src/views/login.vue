@@ -67,12 +67,10 @@ export default {
     toRegister() {
       this.isLogin = !this.isLogin;
     },
-    register() {
-
+    register() {},
+    cancelRes() {
+      this.isLogin = !this.isLogin;
     },
-    cancelRes (){
-      this.isLogin = !this.isLogin
-    }
     // async name() {
     //   //async  await  是解决异步的一种方案，必须要加，但是原生封装就不用
     //   const { data: res } = await this.$http.get("/tabbar");

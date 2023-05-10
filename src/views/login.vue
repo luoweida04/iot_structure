@@ -12,6 +12,7 @@
           </el-form-item>
         </el-form>
       </div>
+      <el-button type="primary" @click="login">登录</el-button>
       <span class="toRegister"
         >没有账号? <a @click="toRegister">点我注册</a></span
       >
@@ -32,8 +33,17 @@
               show-password
             ></el-input>
           </el-form-item>
-          <el-form-item label="验证码">
-            <el-input v-model="registerForm.checkCode"></el-input>
+          <el-form-item label="验证码" class="checkCodeBox">
+            <el-input
+              v-model="registerForm.checkCode"
+              class="checkCode"
+            ></el-input>
+            <img
+              :src="checkCodeImageBase64"
+              alt="验证码"
+              @click="getCheckCodeImage"
+              style="cursor: pointer"
+            />
           </el-form-item>
         </el-form>
       </div>
@@ -45,6 +55,8 @@
   </div>
 </template>
 <script>
+import axios from "axios";
+import { Message } from "element-ui";
 export default {
   name: "viewLogin",
   components: {},
@@ -61,21 +73,88 @@ export default {
         rePassword: "",
         checkCode: "",
       },
+      checkCodeImageBase64: "",
     };
   },
   methods: {
     toRegister() {
       this.isLogin = !this.isLogin;
     },
-    register() {},
     cancelRes() {
       this.isLogin = !this.isLogin;
     },
-    // async name() {
-    //   //async  await  是解决异步的一种方案，必须要加，但是原生封装就不用
-    //   const { data: res } = await this.$http.get("/tabbar");
-    //   this.data = res;
-    // },
+    login() {
+      axios({
+        method: "get",
+        url: "http://localhost:8080/api/user/login", // login是代理，在vue.config.js中
+        params: {
+          username: this.loginForm.username,
+          password: this.loginForm.password,
+        },
+      }).then(
+        (response) => {
+          console.log("请求成功了", response.data);
+        },
+        (error) => {
+          console.log("请求失败了", error.message);
+        }
+      );
+    },
+    register() {
+      axios({
+        method: "post",
+        url: "http://localhost:8080/api/user/register",
+        params: {
+          username: this.registerForm.username,
+          password: this.registerForm.password,
+          rePassword: this.registerForm.rePassword,
+          checkCode: this.registerForm.checkCode,
+        },
+      }).then(
+        (response) => {
+          console.log("register success", response.data);
+          if (response.data.flag == true) {
+            Message({
+              message: "注册成功, 3秒后跳转到登录页",
+              type: "success",
+            });
+            setTimeout(() => {
+              this.isLogin = true;
+            }, 3000);
+          } else {
+            Message({
+              message: response.data.msg,
+              type: "error",
+            });
+          }
+        },
+        (error) => {
+          console.log("register fail", error.message);
+          Message({
+            message: "注册失败",
+            type: "error",
+          });
+        }
+      );
+    },
+    getCheckCodeImage() {
+      const nowtime = Date.now();
+      axios({
+        method: "get",
+        url: `http://localhost:8080/api/code?${nowtime}`,
+      }).then(
+        (response) => {
+          console.log("checkCode success", response.data);
+          this.checkCodeImageBase64 = `data:image/png;base64,${response.data.data}`;
+        },
+        (error) => {
+          console.log("checkCode fail", error.message);
+        }
+      );
+    },
+  },
+  mounted() {
+    this.getCheckCodeImage();
   },
 };
 </script>
@@ -122,7 +201,20 @@ export default {
       margin: auto;
     }
     .cont {
-      // position: relative;
+      .checkCodeBox {
+        display: flex;
+        flex-direction: row;
+        .el-form-item__content {
+          display: flex;
+          text-align: left;
+          margin-left: 20px !important;
+        }
+        .checkCode {
+          width: 100px;
+          margin-left: 0;
+          margin-right: 20px;
+        }
+      }
     }
     .toRegister {
       position: absolute;

@@ -86,7 +86,8 @@ export default {
     login() {
       axios({
         method: "get",
-        url: "http://localhost:8080/api/user/login", // login是代理，在vue.config.js中
+        // url: "http://localhost:8080/api/user/login", // login是代理，在vue.config.js中
+        url: "/user/login",
         params: {
           username: this.loginForm.username,
           password: this.loginForm.password,
@@ -103,7 +104,8 @@ export default {
     register() {
       axios({
         method: "post",
-        url: "http://localhost:8080/api/user/register",
+        // url: "http://localhost:8080/api/user/register",
+        url: "/user/register",
         params: {
           username: this.registerForm.username,
           password: this.registerForm.password,
@@ -141,7 +143,8 @@ export default {
       const nowtime = Date.now();
       axios({
         method: "get",
-        url: `http://localhost:8080/api/code?${nowtime}`,
+        // url: `http://localhost:8080/api/code?${nowtime}`,
+        url: `/code?${nowtime}`,
       }).then(
         (response) => {
           console.log("checkCode success", response.data);
